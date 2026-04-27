@@ -1,6 +1,8 @@
 .topnav{
-    background-color: #C8102E;
+    background-color: #960C22;
     padding: 25px;
+    padding-bottom: 10px;
+    box-sizing: inherit;
 }
 
 .nav-container{
@@ -13,9 +15,13 @@
     padding:.75rem;
     font-size:1.125rem;
 }
+nav.topnav#submenu {
+    padding: 1rem;
+    margin-left: 25px;
+}
 
 .topnav a.active{
-    background-color:#960C22;
+    background-color:#640817;
     color:#FFFFFF;
     font-weight: bold;
 }
@@ -24,15 +30,26 @@
     background-color:#640817;
 }
 
+header{
+    background-color: #960C22;
+}
+
 body{
     font-family:Arial, Helvetica, sans-serif;
     color:black;
-    background-color: beige;
-    padding: 20px;
+    background-color: #FFFFFF;
+    padding: 0px;
+    margin: 0px;
 }
 
 h1{
-    color:hotpink;
+    color:white;
+    padding-left: 70px;
+    font-family: "League Gothic", sans-serif;
+    font-weight: 400;
+    font-size: 43px;
+    margin-top: 10px;
+    margin-bottom: 0px;
 }
 
 section {
@@ -57,14 +74,9 @@ tr:hover{
     background-color: gold;
 }
 
-.red_button{
-    background-color: red;
-    color:yellow;
-}
-
 img{
-    max-width:450px;
-    max-height:450px;
+    padding: 0px;
+    margin: 0px;
 }
 
 #footer1 {

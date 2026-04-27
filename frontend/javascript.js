@@ -32,8 +32,8 @@ document.addEventListener('DOMContentLoaded',()=>{
     console.log('DOM loaded');
     const header = document.querySelector('header');
     header.addEventListener('mouseleave', function(){
-        const dropdown = document.getElementById('submenu');
-        dropdown.innerHTML=``;
+        const submenu = document.getElementById('submenu');
+        submenu.innerHTML=``;
     })
 
     let topnav = document.querySelectorAll('a');
