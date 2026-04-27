@@ -14,7 +14,7 @@ navDictionary['About Us']=`<ul class="nav-container">
                 <li><a href="faq.html">FAQ</a></li>
                 <li><a href="rules.html">Rules and Policies</a></li>
                 </ul>`;
-navDictionary['Contact']=`<ul class="nav-container">
+navDictionary['Developer Contact']=`<ul class="nav-container">
                 <li><a href="references.html">References</a></li>
                 </ul>`;
 navDictionary['Homepage']=``;
