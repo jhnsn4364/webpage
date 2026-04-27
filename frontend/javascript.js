@@ -43,4 +43,56 @@ document.addEventListener('DOMContentLoaded',()=>{
         })
         
     }
+
+  if (url.pathname.endsWith("/reservations.html")) {
+    doForm()
+  }
 });
+
+const url = new URL(window.location.href);
+console.log("url: %o", url);
+const doForm = () => {
+  const validation_errors = JSON.parse(decodeURIComponent(url.hash.slice(1)));
+
+  const errorsDiv = document.createElement("div");
+  errorsDiv.classList.add("errors");
+  const errorsList = document.createElement("ul");
+  errorsDiv.insertAdjacentElement("beforeend", errorsList);
+
+  for (const key in validation_errors) {
+    const {original_value, error_messages} = validation_errors[key];
+    const formInput = document.getElementById(key);
+    if (formInput) {
+      switch (formInput.type) {
+        case "checkbox":
+          formInput.checked = original_value === "true";
+          break;
+        case "datetime-local":
+          if (original_value === "") {
+            continue;
+          }
+          const date = new Date(original_value);
+          const minutesOffsetFromUTC = date.getTimezoneOffset();
+          const secondsInMinute = 60;
+          const millisecondsInSecond = 1000;
+          formInput.valueAsNumber = date.getTime() - (minutesOffsetFromUTC * secondsInMinute * millisecondsInSecond);
+          break;
+        default:
+          formInput.value = original_value;
+          break;
+      }
+    } else {
+      console.error("missing id (%o) that matches validation object's: %o", key, validation_errors[key]);
+    }
+
+    for (const message of error_messages) {
+      const li = document.createElement("li");
+      li.textContent = message;
+      errorsList.insertAdjacentElement("beforeend", li);
+    }
+  }
+
+  if (errorsList.childElementCount > 0) {
+    document.querySelector("form").insertAdjacentElement("beforebegin", errorsDiv);
+  }
+};
