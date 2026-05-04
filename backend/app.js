@@ -1,166 +1,132 @@
 // start your backend for the project with this file
-const path = require("path");
-
-const express = require("express");
-const serveIndex = require("serve-index");
-const bodyParser = require("body-parser");
+const express = require('express');
+const cors = require('cors');
 
 const app = express();
-const formParser = bodyParser.urlencoded({ inflate: false });
 
-const formUrl = "/form";
-const formErrorPage = "/form-error.html";
+app.use(cors());
+app.use(express.json());
 
-const bannedUsers = ["9999999"];
-const day_start = 8;
-const day_end = 12 + 8;
-
-const rooms = new Map();
-for (const room of [
-  "101",
-  "102",
-  "103",
-  "104",
-  "105",
-  "106",
-  "107",
-  "108",
-  "201",
-  "202",
-  "203",
-  "204",
-  "205",
-  "206",
-  "207",
-  "208",
-]) {
-  rooms.set(room, []);
+let rooms = [];
+for (let i = 0; i<16; i++){
+    let dates = [];
+    rooms.push(dates);
 }
+let reservations = [];
 
-const formKeys = [
-  "name",
-  "uhid",
-  "email",
-  "phone",
-  "email_pref",
-  "phone_pref",
-  "room",
-  "datetime-start",
-  "datetime-end",
-];
 
-app.post(formUrl, formParser, (req, res, next) => {
-  const formData = req.body;
-  console.log("formData: %o", formData);
-  console.log("rooms: %o", rooms);
+app.post('/make-reservation', async (req, res) => {
+    try {
+        console.log('reservation request received');
+        const { room, date, time, name, uhid, email, phone, pref } = req.body;
+        console.log(req.body);
+        if (!name || !uhid || !room || !date || !time) {
+            return res.status(400).send({ error: "Missing minimum necessary reservation info" });
+        }
+        
+        const dates = rooms[room];
+        let day_stored = false;
 
-  const validation_errors = {};
-  for (const key of formKeys) {
-    validation_errors[key] = {
-      original_value: formData[key],
-      error_messages: [],
-    };
-  }
+        if (dates.length>0){
+            for (let i = 0; i<=dates.length; i++){
+                if (dates[i].date == date){
+                    day_stored = true;
+                    if(dates[i].times[time]){
+                        let new_reservation = {
+                            reservation_id: reservations.length,
+                            room: room,
+                            date_id: i,
+                            time: time,
+                            name: name,
+                            uhid: uhid,
+                            email: email,
+                            phone: phone,
+                            contact_pref: pref
+                        };
+                        reservations.push(new_reservation);
+                        dates[i].times[time]=false;
 
-  if (bannedUsers.includes(formData.uhid)) {
-    validation_errors.uhid.error_messages.push(
-      `user ${formData.uhid} is banned`,
-    );
-  }
+                        return res.status(201).send({ reservation_details: new_reservation });
+                    }
+                    else{
+                        return res.status(400).send({ error: "The selected room is already booked during that timeslot" });
+                    }
+                }
+            }
+        }
+        if (!day_stored){
+            new_times=[];
+            for(let i = 0; i<12; i++){
+                new_times[i]=true;
+            }
+            new_times[time]=false;
+            let new_date = {
+                id: dates.length,
+                date: date,
+                times: new_times
+            };
+            dates.push(new_date);
 
-  const start_time = new Date(formData["datetime-start"]);
-  const end_time = new Date(formData["datetime-end"]);
+            let new_reservation = {
+                reservation_id: reservations.length,
+                room: room,
+                date_id: new_date.id,
+                time: time,
+                name: name,
+                uhid: uhid,
+                email: email,
+                phone: phone,
+                contact_pref: pref
+            };
+            reservations.push(new_reservation);
 
-  if (start_time.getTime() > end_time.getTime()) {
-    const message = `start time (${start_time}) is after end time (${end_time})`;
-    validation_errors["datetime-start"].error_messages.push(message);
-    validation_errors["datetime-end"].error_messages.push(message);
-  }
-
-  const opening_time = new Date(start_time);
-  opening_time.setHours(day_start, 0, 0, 0);
-  if (start_time.getTime() < opening_time) {
-    validation_errors["datetime-start"].error_messages.push(
-      `start time (${start_time}) must be after opening (${opening_time})`,
-    );
-  }
-
-  const closing_time = new Date(end_time);
-  closing_time.setHours(day_end, 0, 0, 0);
-  if (end_time.getTime() > closing_time) {
-    validation_errors["datetime-end"].error_messages.push(
-      `end time (${end_time}) must be before closing time (${closing_time})`,
-    );
-  }
-
-  if (!rooms.has(formData.room)) {
-    validation_errors.room.error_messages.push(
-      `invalid room chosen: ${formData.room}`,
-    );
-  } else {
-    console.log(
-      "formData.room: %o,\nrooms.get(form.room): %o",
-      formData.room,
-      rooms.get(formData.room),
-    );
-    for (const booking of rooms.get(formData.room)) {
-      const start_overlaps =
-        start_time.getTime() >= booking.start_time.getTime() &&
-        start_time.getTime() <= booking.end_time.getTime();
-      if (start_overlaps) {
-        validation_errors["datetime-start"].error_messages.push(
-          `start time (${start_time}) overlaps with existing booking: ${JSON.stringify(booking)}`,
-        );
-      }
-      const end_overlaps =
-        end_time.getTime() <= booking.end_time.getTime() &&
-        end_time.getTime() >= booking.start_time.getTime();
-      if (end_overlaps) {
-        validation_errors["datetime-end"].error_messages.push(
-          `end time (${end_time}) overlaps with existing booking: ${JSON.stringify(booking)}`,
-        );
-      }
+            return res.status(201).send({ reservation_details: new_reservation });
+        }
+        
+    } catch (error) {
+        console.error("Error processing reservation request:", error);
+        res.status(500).send({ error: "Internal server error" });
     }
-  }
-
-  for (const key in validation_errors) {
-    if (validation_errors[key].error_messages.length > 0) {
-      const fragment =
-        "#" + encodeURIComponent(JSON.stringify(validation_errors));
-      res.redirect(302, "/reservations.html" + fragment);
-      return;
-    }
-  }
-
-  rooms.get(formData.room).push({
-    name: formData.name,
-    uhid: formData.uhid,
-    email: formData.email,
-    phone: formData.phone,
-    email_pref: formData.email_pref,
-    phone_pref: formData.phone_pref,
-    start_time,
-    end_time,
-  });
-
-  res.status(200).send("success");
 });
 
-// This could return json encoding the current bookings for each room. That
-// json could be used to render a bar graph for each room with the booking
-// start and end times being used to calculate where a rectangle is placed
-// along on that bar graph:
-// Room 101: 8AM -------[=====]--[==]----- 8PM
-// Room 102: 8AM [===]-------------------- 8PM
-/*
-app.get(formUrl, (req, res) => {
+app.post('/get-availability', async (req, res) => {
+    try {
+        console.log('availability request received');
+        console.log(req.body);
+        const { room, date } = req.body;
+        if (!room || !date) {
+            return res.status(400).send({ error: "Missing minimum necessary reservation info" });
+        }
+
+        const dates = rooms[room];
+        let times = [];
+
+        let day_stored = false;
+        for (const day of dates){
+            if (day.date == date){
+                times = day.times;
+                day_stored=true;
+                
+            }
+        }
+        if (!day_stored){
+            for(let i = 0; i<12; i++){
+                times[i]=true;
+            }
+        }
+        
+        return res.status(201).send({ times: times });
+        
+    } catch (error) {
+        console.error("Error processing lookup request:", error);
+        res.status(500).send({ error: "Internal server error" });
+    }
 });
-*/
 
-const webRoot = path.join(__dirname, "..", "frontend");
-app.use("/", express.static(webRoot), serveIndex(webRoot, {}));
 
-const port = 3000;
-app.listen(port, () => {
-  console.log(`Example app listening on port ${port}`);
+
+
+const PORT = 3000;
+app.listen(PORT, () => {
+    console.log(`Server is running on http://localhost:${PORT}`);
 });

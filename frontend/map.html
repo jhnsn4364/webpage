@@ -24,24 +24,48 @@
     <header>
         <img src="../media/uh_topbar.png">
         <h1 id="campus">
-            Sugar Land Campus
+            Sugar Land Campus: Sugar Land Student Center
         </h1>
         <nav class="topnav">
             <ul class="nav-container">
-                <li><a href="index.html">Homepage</a></li>
-                <li><a class='active' href="facilities.html">Facilities</a></li>
-                <li><a href="services.html">Campus Services</a></li>
-                <li><a href="events.html">Events</a></li>
-                <li><a href="about.html">About Us</a></li>
-                <li><a href="contact.html">Developer Contact</a></li>
+                <li><a class="nav-link" href="index.html">Homepage</a></li>
+                <li><a class="nav-active" href="facilities.html">Facilities</a></li>
+                <!--<li><a href="services.html">Campus Services</a></li>-->
+                <!--<li><a href="events.html">Events</a></li>-->
+                <li><a class="nav-link" href="about.html">About Us</a></li>
+                <li><a class="nav-link" href="contact.html">Developer Contact</a></li>
             </ul>
         </nav>
         <nav class="topnav" id="submenu">
 
         </nav>
     </header>
+    <div class="pagelayout">
+        <div class="pagelayout-column nav" id="homepage">
+            <h2>
+                Site Navigation
+            </h2>
+            <ul>
+                <li><a class='active' href="index.html">Homepage</a></li>
+                <li><a href="facilities.html">Facilities</a></li>
+                <li class="sublist">
+                    <ul>
+                        <li><a href="map.html">Building Map</a></li>
+                        <li><a href="dining.html">Dining Options</a></li>
+                        <li><a href="reservations.html">Room Reservations</a></li>
+                    </ul>
+                </li>
+                <li><a href="about.html">About Us</a></li>
+                <li><a href="contact.html">Developer Contact</a></li>
+            </ul>
+        </div>
 
-    <img src="../media/Map-Floor-1.png">
-    <img src="../media/Map-Floor-2.png">
+        <div class="pagelayout-column content">
+            <img src="../media/Map-Floor-1.png">
+            <img src="../media/Map-Floor-2.png">
+        </div>
+    </div>
+
+    
 </body>
 </html>

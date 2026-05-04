@@ -1,3 +1,28 @@
+/*
+######################################
+        Overall page style
+######################################
+*/
+body{
+    font-family:Arial, Helvetica, sans-serif;
+    color:black;
+    background-color: #FFFFFF;
+    padding: 0px;
+    margin: 0px;
+}
+
+header{
+    background-color: #960C22;
+    padding: 0px;
+    margin: 0px;
+}
+
+
+/*
+######################################
+        Topnav elements
+######################################
+*/
 .topnav{
     background-color: #960C22;
     padding: 25px;
@@ -14,13 +39,15 @@
     color:#FFF9D9;
     padding:.75rem;
     font-size:1.125rem;
+    font-family: 'Source Sans Pro', sans-serif;
 }
+
 nav.topnav#submenu {
     padding: 1rem;
     margin-left: 25px;
 }
 
-.topnav a.active{
+.topnav a.nav-active{
     background-color:#640817;
     color:#FFFFFF;
     font-weight: bold;
@@ -30,29 +57,136 @@ nav.topnav#submenu {
     background-color:#640817;
 }
 
-header{
-    background-color: #960C22;
-}
 
-section{
+/*
+######################################
+        Default page layout
+######################################
+*/
+.pagelayout {
+    display: flex;
     padding: 50px;
+    line-height:1.8;
 }
 
-iframe{
-    width: 100%;
-    min-height: 100%;
-    max-width: 100%;
-    max-height: 100%;
+.pagelayout-column {
+    flex: auto;
 }
 
-body{
-    font-family:Arial, Helvetica, sans-serif;
-    color:black;
-    background-color: #FFFFFF;
-    padding: 0px;
+.pagelayout-column:first-child {
+    min-width: 180px;
+    max-width: 250px;
+    margin-right: 50px;
+}
+
+section {
+    line-height:1.8;
+    padding-top: 50px;
+    padding-left: 50px;
+    padding-right: 50px;
+    padding-bottom: 25px;
+    max-width: 90%;
+}
+
+
+/*
+######################################
+        index.html page
+######################################
+*/
+#homepage{
+    min-width: 200px;
+}
+
+/*
+######################################
+        reservations.html page
+######################################
+*/
+form{
+    line-height: 1.4;
+}
+
+.button-div{
+    padding-left: 40px;
+    padding-bottom: 15px;
+}
+
+.timedetails-div{
+    padding-left: 10px;
+}
+
+.timeslot-entry{
+    display: flex;
+}
+
+.timeslot-column{
+    flex: 0.5;
     margin: 0px;
 }
 
+.timeslot-p {
+    padding-left: 50px;
+}
+
+
+#timeslot-div {
+    line-height: 1;
+}
+
+
+
+/*
+######################################
+        dining.html page
+######################################
+*/
+#dining-section {
+    padding-top: 0px;
+    margin-top: 0px;
+}
+
+.dining-option {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    max-width: 80%;
+}
+
+.dining-img {
+    width: 250px;
+}
+
+/*
+######################################
+        references.html page
+######################################
+*/
+.references-layout {
+    display: flex;
+    padding: 50px;
+    line-height:1.8;
+}
+
+.references-column {
+    flex: auto;
+}
+
+.references-column:first-child {
+    min-width: 500px;
+    margin-right: 50px;
+}
+
+.apa-style{
+    text-indent: 3em hanging;
+    text-wrap: wrap;
+}
+
+/*
+######################################
+        Text element tags
+######################################
+*/
 h1{
     color:white;
     padding-left: 70px;
@@ -63,42 +197,35 @@ h1{
     margin-bottom: 0px;
 }
 
-section {
-    line-height:1.8;
+
+ul{
+    padding-left: 20px;
 }
 
-table,th,td{
-    border:1px solid black;
-    padding: 8px;
-    text-align: center;
+.sublist {
+    list-style: none;
 }
 
-table{
-    border-collapse: collapse;
-}
 
-tr:nth-child(even){
-    background-color:bisque;
-}
-
-tr:hover{
-    background-color: gold;
-}
-
+/*
+######################################
+        Multi-media element tags
+######################################
+*/
 img{
     padding: 0px;
     margin: 0px;
     max-width: 100%;
 }
 
-#footer1 {
-    font-weight: 600;
-    color:violet;
+#vid{
+    max-width: 100%;
+    max-height: 100%;
+    transform-origin: top;
+    transform: scale(2);
+    margin: 0 auto;
+    display: block;
 }
 
-form{
-    position:absolute;
-    left: 5%;
-    padding: 20pt;
-    background-color: azure;
-}
+
+

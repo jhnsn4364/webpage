@@ -17,6 +17,7 @@
     <link rel="stylesheet" href="style.css">
 
     <script src="javascript.js"></script>
+    <script src="reservation.js"></script>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Crimson+Pro:ital,wght@0,400;0,600;0,700;1,400;1,600;1,700&family=League+Gothic&family=Source+Sans+Pro:ital,wght@0,200;0,400;0,700;0,900;1,200;1,400;1,700;1,900&display=swap">
 </head>
 
@@ -24,16 +25,16 @@
     <header>
         <img src="../media/uh_topbar.png">
         <h1 id="campus">
-            Sugar Land Campus
+            Sugar Land Campus: Sugar Land Student Center
         </h1>
         <nav class="topnav">
             <ul class="nav-container">
-                <li><a href="index.html">Homepage</a></li>
-                <li><a class='active' href="facilities.html">Facilities</a></li>
-                <li><a href="services.html">Campus Services</a></li>
-                <li><a href="events.html">Events</a></li>
-                <li><a href="about.html">About Us</a></li>
-                <li><a href="contact.html">Developer Contact</a></li>
+                <li><a class="nav-link" href="index.html">Homepage</a></li>
+                <li><a class="nav-active" href="facilities.html">Facilities</a></li>
+                <!--<li><a href="services.html">Campus Services</a></li>-->
+                <!--<li><a href="events.html">Events</a></li>-->
+                <li><a class="nav-link" href="about.html">About Us</a></li>
+                <li><a class="nav-link" href="contact.html">Developer Contact</a></li>
             </ul>
         </nav>
         <nav class="topnav" id="submenu">
@@ -41,75 +42,311 @@
         </nav>
     </header>
 
-    <form action="/form" method="post" enctype="application/x-www-form-urlencode" target="_self">
-        <div>
-            <h2>Please enter your information to reserve a room:</h2>
-            <br>
-            <label for="name">Your name:</label>
-            <input type="text" id="name" name="name" required>
-            <br><br>
-            <label for="uhid">UH ID number:</label>
-            <input type="number" id="uhid" name="uhid" required>
-            <br><br>
-            <label for="email">Email:</label>
-            <input type="email" id="email" name="email" required>
-            <br><br>
-            <label for="phone">Phone:</label>
-            <input type="tel" id="phone" name="phone">
-            <br><br>
+    <div id="error_div">
 
-            <label for="contact-preference">Contact preference:</label>
-            <input type="checkbox" id="email_pref" name="contact-preference" value="email">
-            <label for="email_pref">Email</label>
-            <input type="checkbox" id="phone_pref" name="contact-preference" value="phone">
-            <label for="phone_pref">Phone</label>
-            <br><br>
-            
-            
+    </div>
+    <div class="pagelayout">
+        <div class="pagelayout-column nav">
+            <h2>
+                Site Navigation
+            </h2>
+            <ul>
+                <li><a class='active' href="index.html">Homepage</a></li>
+                <li><a href="facilities.html">Facilities</a></li>
+                <li class="sublist">
+                    <ul>
+                        <li><a href="map.html">Building Map</a></li>
+                        <li><a href="dining.html">Dining Options</a></li>
+                        <li><a href="reservations.html">Room Reservations</a></li>
+                    </ul>
+                </li>
+                <li><a href="about.html">About Us</a></li>
+                <li><a href="contact.html">Developer Contact</a></li>
+            </ul>
         </div>
 
-        <div>
-            <h2>Please select the room to check availability</h2>
+        <div class="pagelayout-column">
+            <form>
+                <div id="availability-form">
+                    <h2>Check room availability:</h2>
 
-            <label for="room">Room:</label>
-            <select id="room" name="room" required>
-                <option value="">--Select a room--</option>
-                <option value="101">Room 101</option>
-                <option value="102">Room 102</option>
-                <option value="103">Room 103</option>
-                <option value="104">Room 104</option>
-                <option value="105">Room 105</option>
-                <option value="106">Room 106</option>
-                <option value="107">Room 107</option>
-                <option value="108">Room 108</option>
-                <option value="201">Room 201</option>
-                <option value="202">Room 202</option>
-                <option value="203">Room 203</option>
-                <option value="204">Room 204</option>
-                <option value="205">Room 205</option>
-                <option value="206">Room 206</option>
-                <option value="207">Room 207</option>
-                <option value="208">Room 208</option>
-            </select>
-            <br><br>
+                    <label for="room">Room:</label>
+                    <select id="room" name="room" required>
+                        <option value="">--Select a room--</option>
+                        <option value="0">Room 101</option>
+                        <option value="1">Room 102</option>
+                        <option value="2">Room 103</option>
+                        <option value="3">Room 104</option>
+                        <option value="4">Room 105</option>
+                        <option value="5">Room 106</option>
+                        <option value="6">Room 107</option>
+                        <option value="7">Room 108</option>
+                        <option value="8">Room 201</option>
+                        <option value="9">Room 202</option>
+                        <option value="10">Room 203</option>
+                        <option value="11">Room 204</option>
+                        <option value="12">Room 205</option>
+                        <option value="13">Room 206</option>
+                        <option value="14">Room 207</option>
+                        <option value="15">Room 208</option>
+                    </select>
+                    <br><br>
 
-            <label for="datetime-start">Reservation start:</label>
-            <input type="datetime-local" id="datetime-start" name="datetime-start">
-            <br><br>
-            <label for="datetime-end">Reservation end:</label>
-            <input type="datetime-local" id="datetime-end" name="datetime-end">
-            <br><br>
+                    <label for="date">Date:</label>
+                    <input type="date" id="date" name="date">
+                    <br><br>
+                    
+                    <div class="button-div">
+                        <button type="button" id="button-available">Check Availability</button>
+                        <br><br>
+                    </div>
+                    
+                </div>
 
-            
-            
+                
+
+                <div id="contact-form">
+                    <h2>Submit a new reservation:</h2>
+                    <label for="name">Your name:</label>
+                    <input type="text" id="name" name="name" required>
+                    <br><br>
+                    <label for="uhid">UH ID number:</label>
+                    <input type="number" id="uhid" name="uhid" required>
+                    <br><br>
+                    <label for="email">Email:</label>
+                    <input type="email" id="email" name="email">
+                    <br><br>
+                    <label for="phone">Phone:</label>
+                    <input type="tel" id="phone" name="phone">
+                    <br><br>
+
+                    <label for="contact-preference">Contact preference:</label>
+                    <input type="checkbox" id="email_pref" name="contact-preference" value="email">
+                    <label for="email_pref">Email</label>
+                    <input type="checkbox" id="phone_pref" name="contact-preference" value="phone">
+                    <label for="phone_pref">Phone</label>
+                    <br><br>
+                    
+                    <div class="button-div">
+                        <button type="button" id="button-submit">Submit</button>
+                    </div>
+                    
+                </div>
+
+                
+                
+            </form>
         </div>
+        <div class="pagelayout-column">
+            <div id="timeslot-div">
+                <h2>Choose a timeslot:</h2>
 
-        
+                <div class="timeslot-entry">
+                    <div class="timeslot-column">
+                        <h3>8:00am to 9:00am</h3>
+                        <div class="button-div">
+                            <input type="radio" id="timeslot0" name="timeslot-select" value=0>
+                            <label for="timeslot0">Select</label>                    
+                        </div>
+                    </div>
 
-        
+                    <div class="timeslot-column">
+                        <div class="timedetails-div">
+                            <h3>Current status:</h3>
+                            <p class="timeslot-p" id="timeslot0-status" name="timeslot0-status">Please select a room</p>
+                        </div>
+                    </div>
+                </div>
 
+                <div class="timeslot-entry">
+                    <div class="timeslot-column">
+                        <h3>9:00am to 10:00am</h3>
+                        <div class="button-div">
+                            <input type="radio" id="timeslot1" name="timeslot-select" value=1>
+                            <label for="timeslot1">Select</label>                    
+                        </div>
+                    </div>
 
-        <button type="submit">Submit</button>
-    </form>
+                    <div class="timeslot-column">
+                        <div class="timedetails-div">
+                            <h3>Current status:</h3>
+                            <p class="timeslot-p" id="timeslot1-status" name="timeslot1-status">Please select a room</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="timeslot-entry">
+                    <div class="timeslot-column">
+                        <h3>10:00am to 11:00am</h3>
+                        <div class="button-div">
+                            <input type="radio" id="timeslot2" name="timeslot-select" value=2>
+                            <label for="timeslot2">Select</label>                    
+                        </div>
+                    </div>
+
+                    <div class="timeslot-column">
+                        <div class="timedetails-div">
+                            <h3>Current status:</h3>
+                            <p class="timeslot-p" id="timeslot2-status" name="timeslot2-status">Please select a room</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="timeslot-entry">
+                    <div class="timeslot-column">
+                        <h3>11:00am to 12:00pm</h3>
+                        <div class="button-div">
+                            <input type="radio" id="timeslot3" name="timeslot-select" value=3>
+                            <label for="timeslot3">Select</label>                    
+                        </div>
+                    </div>
+
+                    <div class="timeslot-column">
+                        <div class="timedetails-div">
+                            <h3>Current status:</h3>
+                            <p class="timeslot-p" id="timeslot3-status" name="timeslot3-status">Please select a room</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="timeslot-entry">
+                    <div class="timeslot-column">
+                        <h3>12:00pm to 1:00pm</h3>
+                        <div class="button-div">
+                            <input type="radio" id="timeslot4" name="timeslot-select" value=4>
+                            <label for="timeslot4">Select</label>                    
+                        </div>
+                    </div>
+
+                    <div class="timeslot-column">
+                        <div class="timedetails-div">
+                            <h3>Current status:</h3>
+                            <p class="timeslot-p" id="timeslot4-status" name="timeslot4-status">Please select a room</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="timeslot-entry">
+                    <div class="timeslot-column">
+                        <h3>1:00pm to 2:00pm</h3>
+                        <div class="button-div">
+                            <input type="radio" id="timeslot5" name="timeslot-select" value=5>
+                            <label for="timeslot5">Select</label>                    
+                        </div>
+                    </div>
+
+                    <div class="timeslot-column">
+                        <div class="timedetails-div">
+                            <h3>Current status:</h3>
+                            <p class="timeslot-p" id="timeslot5-status" name="timeslot5-status">Please select a room</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="timeslot-entry">
+                    <div class="timeslot-column">
+                        <h3>2:00pm to 3:00pm</h3>
+                        <div class="button-div">
+                            <input type="radio" id="timeslot6" name="timeslot-select" value=6>
+                            <label for="timeslot6">Select</label>                    
+                        </div>
+                    </div>
+
+                    <div class="timeslot-column">
+                        <div class="timedetails-div">
+                            <h3>Current status:</h3>
+                            <p class="timeslot-p" id="timeslot6-status" name="timeslot6-status">Please select a room</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="timeslot-entry">
+                    <div class="timeslot-column">
+                        <h3>3:00pm to 4:00pm</h3>
+                        <div class="button-div">
+                            <input type="radio" id="timeslot7" name="timeslot-select" value=7>
+                            <label for="timeslot7">Select</label>                    
+                        </div>
+                    </div>
+
+                    <div class="timeslot-column">
+                        <div class="timedetails-div">
+                            <h3>Current status:</h3>
+                            <p class="timeslot-p" id="timeslot7-status" name="timeslot7-status">Please select a room</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="timeslot-entry">
+                    <div class="timeslot-column">
+                        <h3>4:00pm to 5:00pm</h3>
+                        <div class="button-div">
+                            <input type="radio" id="timeslot8" name="timeslot-select" value=8>
+                            <label for="timeslot8">Select</label>                    
+                        </div>
+                    </div>
+
+                    <div class="timeslot-column">
+                        <div class="timedetails-div">
+                            <h3>Current status:</h3>
+                            <p class="timeslot-p" id="timeslot8-status" name="timeslot8-status">Please select a room</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="timeslot-entry">
+                    <div class="timeslot-column">
+                        <h3>5:00pm to 6:00pm</h3>
+                        <div class="button-div">
+                            <input type="radio" id="timeslot9" name="timeslot-select" value=9>
+                            <label for="timeslot9">Select</label>                    
+                        </div>
+                    </div>
+
+                    <div class="timeslot-column">
+                        <div class="timedetails-div">
+                            <h3>Current status:</h3>
+                            <p class="timeslot-p" id="timeslot9-status" name="timeslot9-status">Please select a room</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="timeslot-entry">
+                    <div class="timeslot-column">
+                        <h3>6:00pm to 7:00pm</h3>
+                        <div class="button-div">
+                            <input type="radio" id="timeslot10" name="timeslot-select" value=10>
+                            <label for="timeslot10">Select</label>                    
+                        </div>
+                    </div>
+
+                    <div class="timeslot-column">
+                        <div class="timedetails-div">
+                            <h3>Current status:</h3>
+                            <p class="timeslot-p" id="timeslot10-status" name="timeslot10-status">Please select a room</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="timeslot-entry">
+                    <div class="timeslot-column">
+                        <h3>7:00pm to 8:00pm</h3>
+                        <div class="button-div">
+                            <input type="radio" id="timeslot11" name="timeslot-select" value=11>
+                            <label for="timeslot11">Select</label>                    
+                        </div>
+                    </div>
+
+                    <div class="timeslot-column">
+                        <div class="timedetails-div">
+                            <h3>Current status:</h3>
+                            <p class="timeslot-p" id="timeslot11-status" name="timeslot11-status">Please select a room</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
 </body>
 </html>
